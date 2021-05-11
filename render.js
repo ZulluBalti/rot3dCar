@@ -165,23 +165,19 @@ function onMouseClick(event) {
   const intersects = raycaster.intersectObjects(scene.children, true);
 
   for (let i = 0; i < intersects.length; i++) {
-    openLink(intersects[i]);
+    openLink(intersects[i].object);
   }
 }
 window.addEventListener("click", onMouseClick, false);
 
-function openLink(intersect) {
+function openLink(obj) {
   let url;
-  if (intersects[i].object.userData && intersects[i].object.userData.link) {
+  if (obj.userData && obj.userData.link) {
     // open link
-    url = intersects[i].object.userData.link;
-  } else if (
-    intersects[i].object.parent &&
-    intersects[i].object.parent.userData &&
-    intersects[i].object.parent.userData.link
-  ) {
+    url = obj.userData.link;
+  } else if (obj.parent && obj.parent.userData && obj.parent.userData.link) {
     // open link
-    url = intersects[i].object.parent.userData.link;
+    url = obj.parent.userData.link;
   }
   if (url) window.open(url, "_blank");
 }
@@ -190,8 +186,8 @@ const render = function () {
 
   // Rotate the objects
   for (let object of objects) {
-    // object.rotation.z += 0.005;
-    // object.rotation.x += 0.002;
+    object.rotation.z += 0.005;
+    object.rotation.x += 0.002;
   }
 
   renderer.render(scene, camera);

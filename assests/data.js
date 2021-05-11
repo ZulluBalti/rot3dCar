@@ -1,31 +1,33 @@
 export default [
-  {
-    o: "/assests/apple/apple.obj",
-    m: "/assests/apple/apple.mtl",
-    txt: "APPLE",
-    txtR: { x: 1.2, y: 3.1, z: 0 },
-    txtP: { x: 6.8, y: -10.9, z: -10.9 },
-    oR: { x: -0.8, y: 0, z: 0 },
-    oS: { x: 0.8, y: 0.8, z: 0.8 },
-    link:
-      "https://www.dropbox.com/sh/rop1761uo0pi1fn/AAB9dVsLswmPLkbVfzRgUF6Ba/apple%20watch%20attachment?dl=0&preview=revision1+v2+scaled.obj&subfolder_nav_tracking=1",
-  },
-  {
-    o: "/assests/banana/banana.obj",
-    m: null,
-    txtP: { x: 0.1, y: 2.9, z: 0 },
-    txtR: { x: 15.6, y: -4.3, z: -15.3 },
-    oR: { x: 0, y: 0, z: 0 },
-    oS: { x: 0.1, y: 0.1, z: 0.1 },
-  },
+//   {
+//     o: "/assests/apple/apple.obj",
+//     m: "/assests/apple/apple.mtl",
+//     txt: "APPLE",
+//     txtR: { x: 1.2, y: 3.1, z: 0 },
+//     txtP: { x: 6.8, y: -10.9, z: -10.9 },
+//     oR: { x: -0.8, y: 0, z: 0 },
+//     oS: { x: 0.8, y: 0.8, z: 0.8 },
+//     link:
+//       "https://www.dropbox.com/sh/rop1761uo0pi1fn/AAB9dVsLswmPLkbVfzRgUF6Ba/apple%20watch%20attachment?dl=0&preview=revision1+v2+scaled.obj&subfolder_nav_tracking=1",
+//   },
+//   {
+//     o: "/assests/banana/banana.obj",
+//     m: null,
+//     txtP: { x: 0.1, y: 2.9, z: 0 },
+//     txtR: { x: 15.6, y: -4.3, z: -15.3 },
+//     oR: { x: 0, y: 0, z: 0 },
+//     oS: { x: 0.1, y: 0.1, z: 0.1 },
+//     txt: "BANANA"
+//   },
   // { o: "/assests/carPrototype/carPrototype.obj", m: null },
   // { o: "/assests/cd/cd.obj", m: null }, // it's special
   // { o: "/assests/flower/flower.obj", m: "/assests/flower/flower.mtl" }, this is also faulty obj file:719
   // { o: "/assests/gemBand/gemBand.obj", m: "/assests/gemBand/gemBand.mtl" }, this is faulty, not working. obj file:719
   // { o: "/assests/grindPlate/grindPlate.obj", m: null },
   {
-    o: "/assests/grindShoe/grindShoe.obj",
-    m: null,
+    o: "/assests/grindShoe/Model001.obj",
+    m: "/assests/grindShoe/Model001.mtl",
+    texture: "/assests/grindShoe/Image.jpg",
     txt: "GRIND SHOE",
     txtP: { x: 1, y: -3.1, z: 0 },
     txtR: { x: 4.6, y: 2.4, z: -6.5 },
