@@ -1,4 +1,6 @@
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   font-family: sans-serif;
@@ -7,12 +9,17 @@ body {
 
 .scene {
   /* border: 1px solid #CCC; */
-  margin: 40px 0;
+  /* margin: 40px 0;
   position: relative;
   width: 510px;
   height: 510px;
   margin: 80px auto;
-  perspective: 1000px;
+  perspective: 1000px; */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
 }
 
 .carousel {
@@ -51,17 +58,33 @@ body {
 .carousel__cell:nth-child(9n+8) { background: hsla(280, 100%, 50%, 0.8); }
 .carousel__cell:nth-child(9n+0) { background: hsla(320, 100%, 50%, 0.8); } */
 
-.carousel__cell:nth-child(1) { transform: rotateY(  0deg) translateZ(288px); }
-.carousel__cell:nth-child(2) { transform: rotateY( 40deg) translateZ(288px); }
-.carousel__cell:nth-child(3) { transform: rotateY( 80deg) translateZ(288px); }
-.carousel__cell:nth-child(4) { transform: rotateY(120deg) translateZ(288px); }
-.carousel__cell:nth-child(5) { transform: rotateY(160deg) translateZ(288px); }
-.carousel__cell:nth-child(6) { transform: rotateY(200deg) translateZ(288px); }
-.carousel__cell:nth-child(7) { transform: rotateY(240deg) translateZ(288px); }
-.carousel__cell:nth-child(8) { transform: rotateY(280deg) translateZ(288px); }
-.carousel__cell:nth-child(9) { transform: rotateY(320deg) translateZ(288px); }
-
-
+.carousel__cell:nth-child(1) {
+  transform: rotateY(0deg) translateZ(288px);
+}
+.carousel__cell:nth-child(2) {
+  transform: rotateY(40deg) translateZ(288px);
+}
+.carousel__cell:nth-child(3) {
+  transform: rotateY(80deg) translateZ(288px);
+}
+.carousel__cell:nth-child(4) {
+  transform: rotateY(120deg) translateZ(288px);
+}
+.carousel__cell:nth-child(5) {
+  transform: rotateY(160deg) translateZ(288px);
+}
+.carousel__cell:nth-child(6) {
+  transform: rotateY(200deg) translateZ(288px);
+}
+.carousel__cell:nth-child(7) {
+  transform: rotateY(240deg) translateZ(288px);
+}
+.carousel__cell:nth-child(8) {
+  transform: rotateY(280deg) translateZ(288px);
+}
+.carousel__cell:nth-child(9) {
+  transform: rotateY(320deg) translateZ(288px);
+}
 
 /*
 .carousel__cell:nth-child(9n+1) { background: hsla(  0, 100%, 50%, 0.8); }
@@ -84,11 +107,13 @@ body {
 .carousel__cell:nth-child(8) { transform: rotateY(280deg) translateZ(288px); }
 .carousel__cell:nth-child(9) { transform: rotateY(320deg) translateZ(288px); } */
 
-
-
 .carousel-options {
   text-align: center;
-  position: relative;
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 2;
   background: hsla(0, 0%, 100%, 0.8);
+  padding: 0.5rem 1rem;
 }

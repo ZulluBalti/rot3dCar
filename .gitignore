@@ -1,0 +1,6 @@
+node_modules/
+.vscode
+index2.html
+render2.js
+build/dat.gui.js
+build/dat.gui.modules.js
