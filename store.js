@@ -1,5 +1,5 @@
 export default {
-  active: 0,
+  active: 3,
   next() {
     this.active++;
     if (this.active >= this.models.length) this.active = 0;
