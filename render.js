@@ -1,40 +1,59 @@
 import * as THREE from "https://cdn.skypack.dev/three";
 
-import { OrbitControls } from "https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls.js";
-import { OBJLoader } from "https://cdn.skypack.dev/three/examples/jsm/loaders/OBJLoader.js";
-import { MTLLoader } from "https://cdn.skypack.dev/three/examples/jsm/loaders/MTLLoader.js";
-import assests from "./assests/data.js";
+import { GLTFLoader } from "https://cdn.skypack.dev/three/examples/jsm/loaders/GLTFLoader.js";
 
-var renderer, scene, camera;
+import { OrbitControls } from "https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls.js";
+
+import { GUI } from "./build/dat.gui.module.js";
+const gui = new GUI();
+
+import store from "./store.js";
+
+let renderer, scene, camera;
 let controls;
 let objects = [];
-let raycaster, mouse;
 
-var ww = window.innerWidth,
-  wh = window.innerHeight;
+const controlBtns = document.querySelector(".control-con");
+controlBtns.addEventListener("click", controlHandler, false);
+
+let ww = window.innerWidth;
+let wh = window.innerHeight;
 
 function init() {
   renderer = new THREE.WebGLRenderer({ antialis: true });
   document.querySelector(".scene").appendChild(renderer.domElement);
   renderer.setSize(ww, wh);
-  raycaster = new THREE.Raycaster();
-  mouse = new THREE.Vector3();
 
   scene = new THREE.Scene();
 
-  camera = new THREE.PerspectiveCamera(50, ww / wh, 0.1, 2000);
-  camera.position.set(0, 200, 0);
+  camera = new THREE.PerspectiveCamera(50, ww / wh, 0.01, 2000);
+  camera.position.set(0, 0, 2000);
 
-  scene.add(camera);
+  const cameraP = gui.addFolder("Camera Position");
+  cameraP.add(camera.position, "x", 0).step(0.1).min(0).max(500);
+  cameraP.add(camera.position, "y", 200).step(0.1).min(0).max(500);
+  cameraP.add(camera.position, "z", 0).step(0.1).min(0).max(500);
 
-  {
+  const cameraR = gui.addFolder("Camera Rotation");
+  cameraR.add(camera.rotation, "x", 0).step(0.1).min(0).max(Math.PI);
+  cameraR.add(camera.rotation, "y", 0).step(0.1).min(0).max(Math.PI);
+  cameraR.add(camera.rotation, "z", 0).step(0.1).min(0).max(Math.PI);
+
+  addAmbientLight();
+  addDirLight();
+  addOrbitControl();
+
+  //Load the Models
+  loadModels();
+
+  function addAmbientLight() {
     const color = 0xb97a20; // brownish orange
     const intensity = 1;
     const hLight = new THREE.AmbientLight(color, intensity);
     scene.add(hLight);
   }
 
-  {
+  function addDirLight() {
     const color = 0xffffff;
     const intensity = 1;
     const light = new THREE.DirectionalLight(color, intensity);
@@ -43,155 +62,126 @@ function init() {
     scene.add(light.target);
   }
 
-  controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.rotateSpeed = 0.5;
-  controls.autoRotate = true;
-  controls.autoRotateSpeed = 0.2;
+  function addOrbitControl() {
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.rotateSpeed = 0.5;
+    // controls.autoRotate = true;
+    // controls.autoRotateSpeed = 1.5;
 
-  controls.update();
-
-  //Load the obj file
-  loadOBJ();
-}
-
-var loadOBJ = function () {
-  assests.forEach((assest) => {
-    if (assest.m) addObj_N_MTL(assest);
-    else addObj(assest);
-  });
-
-  function addObj_N_MTL(assest) {
-    const mtLoader = new MTLLoader();
-
-    mtLoader.load(assest.m, function (materials) {
-      materials.preload();
-
-      const obLoader = new OBJLoader();
-      obLoader.setMaterials(materials);
-      loadObject(obLoader, assest);
-    });
-  }
-
-  function addObj(assest) {
-    const obLoader = new OBJLoader();
-    loadObject(obLoader, assest);
-  }
-
-  function loadObject(loader, assest) {
-    loader.load(assest.o, function (object) {
-      object.traverse(function (child) {
-        if (child instanceof THREE.Mesh) {
-          if (assest.color) child.material.color = new THREE.Color(assest.c);
-          child.geometry.computeVertexNormals();
-        }
-      });
-
-      // Adding text
-      addTxt(object, assest);
-      render();
-    });
-  }
-  function addTxt(root, assest) {
-    const load2 = new THREE.FontLoader();
-
-    load2.load("fonts/helvetiker_regular.typeface.json", function (font) {
-      const textGeo = new THREE.TextGeometry(assest.txt, {
-        font: font,
-        size: 2,
-        height: 1,
-        curveSegments: 21,
-        bevelEnabled: false,
-      });
-
-      const textMaterial = new THREE.MeshPhongMaterial({ color: 0xdddddd });
-      const mesh = new THREE.Mesh(textGeo, textMaterial);
-
-      // Text Rotation
-      const { txtR } = assest;
-      mesh.rotation.set(txtR.x, txtR.y, txtR.z);
-
-      // Text Position
-      const { txtP } = assest;
-      mesh.position.set(txtP.x, txtP.y, txtP.z);
-
-      // Object Scaling
-      const { oS } = assest;
-      root.scale.set(oS.x, oS.y, oS.z);
-
-      // Object Rotation
-      const { oR } = assest;
-      root.rotation.set(oR.x, oR.y, oR.z);
-
-      // Adding the link
-      const group = new THREE.Group();
-      group.userData.link = assest.link;
-      root.userData.link = assest.link;
-      mesh.userData.link = assest.link;
-
-      group.add(root);
-      group.add(mesh);
-
-      const radius = 50;
-      const slice = (2 * Math.PI) / assests.length;
-
-      const angle = slice * objects.length;
-      group.position.x = Math.cos(angle) * radius;
-      group.position.z = Math.sin(angle) * radius;
-
-      scene.add(group);
-      objects.push(group);
-    });
-  }
-};
-
-function loadTexture(textureUrl) {
-  const Tloader = new THREE.TextureLoader();
-  const map = Tloader.load(textureUrl);
-  const material = new THREE.MeshPhongMaterial({ map: map });
-  return material;
-}
-
-function onMouseClick(event) {
-  mouse.set(
-    (event.clientX / window.innerWidth) * 2 - 1,
-    -(event.clientY / window.innerHeight) * 2 + 1,
-    0.5
-  ); // z = 0.5 important!
-
-  mouse.unproject(camera);
-  raycaster.set(camera.position, mouse.sub(camera.position).normalize());
-
-  const intersects = raycaster.intersectObjects(scene.children, true);
-
-  for (let i = 0; i < intersects.length; i++) {
-    openLink(intersects[i].object);
+    controls.update();
   }
 }
-window.addEventListener("click", onMouseClick, false);
 
-function openLink(obj) {
-  let url;
-  if (obj.userData && obj.userData.link) {
-    // open link
-    url = obj.userData.link;
-  } else if (obj.parent && obj.parent.userData && obj.parent.userData.link) {
-    // open link
-    url = obj.parent.userData.link;
-  }
-  if (url) window.open(url, "_blank");
-}
 const render = function () {
   requestAnimationFrame(render);
 
   // Rotate the objects
   for (let object of objects) {
-    object.rotation.z += 0.005;
-    object.rotation.x += 0.002;
+    // object.rotation.z += 0.005;
+    // object.rotation.x += 0.002;
   }
 
   renderer.render(scene, camera);
   controls.update();
 };
 
+function loadModels() {
+  console.log(store);
+  store.models.forEach((model) => {
+    loadModel(model);
+  });
+}
+
+function loadModel(model) {
+  const loader = new GLTFLoader();
+  loader.load(model.file, renderFile, loading, error);
+
+  function renderFile(gltf) {
+    const radius = 1000;
+    const slice = (2 * Math.PI) / store.models.length;
+
+    const angle = slice * objects.length;
+    gltf.scene.position.x = Math.cos(angle) * radius;
+    gltf.scene.position.z = Math.sin(angle) * radius;
+
+    gltf.scene.traverse(function (child) {
+      if (child instanceof THREE.Mesh) {
+        if (model.color) child.material.color = new THREE.Color(model.color);
+        child.geometry.computeVertexNormals();
+      }
+    });
+
+    // Scaling
+    {
+      const { x, y, z } = model.oS;
+      gltf.scene.scale.set(x, y, z);
+    }
+
+    // Rotation
+    {
+      const { x, y, z } = model.oR;
+      gltf.scene.rotation.set(x, y, z);
+    }
+
+    scene.add(gltf.scene);
+    objects.push(gltf.scene);
+    render();
+  }
+
+  function loading(xhr) {
+    console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+  }
+
+  function error(err) {
+    console.log("An error happened", err);
+  }
+}
+
+function controlHandler(e) {
+  const { className } = e.target.parentElement;
+  if (e.target.matches(".control-con *, .control-con *")) {
+    store[className]();
+    renderTxt();
+    // Todo
+
+    const { x, z } = objects[0].position;
+
+    for (let i = 0; i < objects.length; i++) {
+      let nxt = i + 1;
+      if (nxt === objects.length) {
+        objects[i].position.x = x;
+        objects[i].position.z = z;
+      } else {
+        const { x, z } = objects[nxt].position;
+        objects[i].position.x = x;
+        objects[i].position.z = z;
+        // moveIt(objects[i], x, z)
+      }
+    }
+  }
+
+  function moveIt(el, x, z) {
+    const frX = x / el.position.x;
+    const frZ = z / el.position.z;
+
+    const moverTimers = setInterval(() => {
+      el.position.z += 0.0001;
+      el.position.x += 0.0001;
+      if (el.position.x >= x || el.position.z >= z) {
+        clearInterval(moverTimers);
+        el.position.z = z;
+        el.position.x = x;
+      }
+    }, 10);
+  }
+}
+
+function renderTxt() {
+  const txtEl = document.querySelector(".txt p");
+  const linkTxt = store.models[store.active].file;
+  txtEl.innerHTML = `<a href="./singleModel.html?active=${store.active}" target="_blank">${linkTxt}</a>`;
+}
+
 init();
+renderTxt();

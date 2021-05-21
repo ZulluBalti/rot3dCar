@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Single Model</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        z-index: 5;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+      }
+      header img {
+        width: 20px;
+        height: 20px;
+      }
+      header h1 {
+        font-family: ariel;
+        color: white;
+        text-align: center;
+        flex-grow: 1;
+      }
+
+      .icons {
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="icons">
+        <img src="assets/icons/music.png" alt="Music" />
+        <img src="assets/icons/twitter (1).png" alt="Twitter" />
+        <img src="assets/icons/instagram (2).png" alt="Instagram" />
+      </div>
+      <h1>DXADLY</h1>
+    </header>
+    <div class="scene"></div>
+    <script type="module" src="./singleModel.js"></script>
+  </body>
+</html>
