@@ -8,10 +8,126 @@ import { GUI } from "./build/dat.gui.module.js";
 const gui = new GUI();
 
 import store from "./store.js";
+import cloneDeep from "https://cdn.skypack.dev/clonedeep";
 
 let renderer, scene, camera;
 let controls;
-let objects = [];
+
+let objects = {
+  left: null,
+  right: null,
+  back: null,
+  front: null,
+
+  length: 0,
+  add() {
+    this.length++;
+  },
+  removeBack() {
+    scene.remove(this.back);
+    this.back = null;
+  },
+  nxtMove() {
+    const tmpB = { ...this.back.position };
+    delete tmpB.y;
+    const tmpBF = this.back.userData.file;
+
+    const tmpF = { ...this.front.position };
+    delete tmpF.y;
+    const tmpFF = this.front.userData.file;
+
+    const tmpL = { ...this.left.position };
+    delete tmpL.y;
+    const tmpLF = this.left.userData.file;
+
+    this.front.position.x = this.right.position.x;
+    this.front.position.z = this.right.position.z;
+    this.front.userData.file = this.right.userData.file;
+
+    this.right.position.x = tmpB.x;
+    this.right.position.z = tmpB.z;
+    this.right.userData.file = tmpBF;
+
+    this.back.position.x = tmpL.x;
+    this.back.position.z = tmpL.z;
+    this.back.userData.file = tmpLF;
+
+    this.left.position.x = tmpF.x;
+    this.left.position.z = tmpF.z;
+    this.left.userData.file = tmpFF;
+  },
+
+  adjust() {
+    const tF = cloneDeep(this.front);
+    const tB = cloneDeep(this.back);
+
+    console.log(tF);
+    console.log(this.front);
+    debugger;
+
+    this.front = cloneDeep(this.left);
+    this.right = tF;
+    this.left = tB;
+  },
+
+  replaceModel() {
+    const model = store.models[store.active];
+    const loader = new GLTFLoader();
+
+    const renderFile = (gltf) => {
+      gltf.scene.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          if (model.color) child.material.color = new THREE.Color(model.color);
+          child.geometry.computeVertexNormals();
+        }
+      });
+
+      // Scaling
+      {
+        const { x, y, z } = model.oS;
+        gltf.scene.scale.set(x, y, z);
+      }
+
+      // Rotation
+      {
+        const { x, y, z } = model.oR;
+        gltf.scene.rotation.set(x, y, z);
+      }
+
+      // position
+      {
+        const { x, z } = this.back.position;
+        gltf.scene.position.x = x;
+        gltf.scene.position.z = z;
+      }
+
+      gltf.scene.userData.file = model.file;
+
+      // removing the prev
+      this.removeBack();
+      this.adjust();
+
+      objects.back = gltf.scene;
+      scene.add(objects.back);
+
+      renderTxt();
+      render();
+    };
+
+    loader.load(model.file, renderFile, loading, error);
+    function loading(xhr) {
+      console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    }
+
+    function error(err) {
+      console.log("An error happened", err);
+    }
+  },
+  nxt() {
+    this.nxtMove();
+    this.replaceModel();
+  },
+};
 
 const controlBtns = document.querySelector(".control-con");
 controlBtns.addEventListener("click", controlHandler, false);
@@ -90,10 +206,9 @@ function render() {
 }
 
 function loadModels() {
-  for (let i = 0; i <= store.active; i++) loadModel(store.models[i]);
-}
+  if (objects.length >= 4) return;
+  const model = store.models[objects.length];
 
-function loadModel(model) {
   const loader = new GLTFLoader();
   loader.load(model.file, renderFile, loading, error);
 
@@ -125,19 +240,28 @@ function loadModel(model) {
     }
 
     gltf.scene.userData.file = model.file;
-    gltf.scene.userData.index = objects.length;
 
     scene.add(gltf.scene);
-    objects.push(gltf.scene);
-    render();
+    let side = "right";
 
-    if (objects.length === 4) {
+    if (objects.length === 1) side = "front";
+    else if (objects.length === 2) side = "left";
+    else if (objects.length === 3) {
+      side = "back";
       renderTxt();
     }
+
+    objects[side] = gltf.scene;
+    objects.add();
+    render();
+    loadModels();
   }
 
   function loading(xhr) {
-    console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    if ((xhr.loaded / xhr.total) * 100 === 100) {
+      console.log(xhr.currentTarget.responseURL, objects.length);
+      console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    }
   }
 
   function error(err) {
@@ -150,8 +274,9 @@ function controlHandler(e) {
   if (e.target.matches(".control-con *, .control-con *")) {
     store[className]();
     if (className === "next") {
-      nxtMove();
-      addModel(store.models[store.active]);
+      // objects.nxtMove();
+      // addModel(store.models[store.active]);
+      objects.nxt();
     }
     // Todo
     function prevMove() {
@@ -172,7 +297,7 @@ function controlHandler(e) {
 
     function nxtMove() {
       const { x, z } = objects[objects.length - 1].position;
-      
+
       for (let i = objects.length - 1; i >= 0; i--) {
         let prev = i - 1;
         if (i === 0) {
@@ -190,63 +315,10 @@ function controlHandler(e) {
 
 function renderTxt() {
   const txtEl = document.querySelector(".txt p");
-  const linkTxt = objects[1].userData.file;
-  const index = objects[1].userData.index;
+  const linkTxt = objects.front.userData.file;
+  const index = store.active || objects.front.userData.index;
 
   txtEl.innerHTML = `<a href="./singleModel.html?active=${index}" target="_blank">${linkTxt}</a>`;
-}
-
-function addModel(model) {
-  const loader = new GLTFLoader();
-  loader.load(model.file, renderFile, loading, error);
-
-  function renderFile(gltf) {
-    gltf.scene.traverse(function (child) {
-      if (child instanceof THREE.Mesh) {
-        if (model.color) child.material.color = new THREE.Color(model.color);
-        child.geometry.computeVertexNormals();
-      }
-    });
-
-    // Scaling
-    {
-      const { x, y, z } = model.oS;
-      gltf.scene.scale.set(x, y, z);
-    }
-
-    // Rotation
-    {
-      const { x, y, z } = model.oR;
-      gltf.scene.rotation.set(x, y, z);
-    }
-
-    // position
-    {
-      const { x, z } = objects[objects.length - 1].position;
-      gltf.scene.position.x = x;
-      gltf.scene.position.z = z;
-    }
-
-    gltf.scene.userData.file = model.file;
-    gltf.scene.userData.index = store.active;
-
-    // Removing the last one
-    scene.remove(objects.pop());
-
-    objects.unshift(gltf.scene);
-    scene.add(gltf.scene);
-
-    renderTxt();
-    render();
-  }
-
-  function loading(xhr) {
-    console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-  }
-
-  function error(err) {
-    console.log("An error happened", err);
-  }
 }
 
 window.scene = scene;
