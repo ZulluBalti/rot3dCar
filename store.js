@@ -1,13 +1,32 @@
 export default {
-  active: 3,
+  nxtA: 3,
+  prevA: 0,
+  currentObjs: [0, 1, 2, 3],
+  removeOne(index) {
+    this.currentObjs.splice(index, 1);
+  },
   next() {
-    this.active++;
-    if (this.active >= this.models.length) this.active = 0;
+    this.nxtA++;
+    if (this.nxtA >= this.models.length) this.nxtA = 0;
+
+    while (this.currentObjs.includes(this.nxtA)) {
+      let nNum = Math.max(...this.currentObjs) + 1;
+      if (nNum >= this.models.length) nNum = 0;
+      this.nxtA = nNum;
+    }
   },
+
   prev() {
-    this.active--;
-    if (this.active < 0) this.active = this.models.length - 1;
+    this.prevA--;
+    if (this.prevA < 0) this.prevA = this.models.length - 1;
+
+    while (this.currentObjs.includes(this.prevA)) {
+      let nNum = Math.min(...this.currentObjs) - 1;
+      if (nNum < 0) nNum = this.models.length - 1;
+      this.prevA = nNum;
+    }
   },
+
   models: [
     {
       file: "assets/apple/applewatchattachment.glb",
@@ -52,19 +71,18 @@ export default {
       file: "assets/mechanicalTool/scene.glb",
       oR: { x: 0.5, y: 0, z: 0 },
       oS: { x: 0.8, y: 0.8, z: 0.8 },
-      oPy: 50
+      oPy: 50,
     },
     {
       file: "assets/modernTable/Modern_Table.glb",
       oR: { x: 0.4, y: 0, z: 0 },
       oS: { x: 20, y: 20, z: 20 },
-      oPy: -35
+      oPy: -35,
     },
     {
       file: "assets/musicalBall/MUSIC_BALL.glb",
       oR: { x: 0, y: 0, z: 0 },
       oS: { x: 60, y: 60, z: 60 },
-
     },
     {
       file: "assets/stepByStep/Improved Step by Step.glb",
@@ -86,7 +104,7 @@ export default {
       oR: { x: 1.3, y: 0, z: 0 },
       oS: { x: 4, y: 4, z: 4 },
       color: 0xffff00,
-      oPy: -35
+      oPy: -35,
     },
   ],
 };
