@@ -50,10 +50,10 @@ function init() {
     cameraP.add(camera.position, "y", 200).step(0.1).min(-1000).max(1000);
     cameraP.add(camera.position, "z", 0).step(0.1).min(-1000).max(1500);
 
-    const cameraR = gui.addFolder("Camera Rotation");
-    cameraR.add(camera.rotation, "x", 0).step(0.1).min(0).max(Math.PI);
-    cameraR.add(camera.rotation, "y", 0).step(0.1).min(0).max(Math.PI);
-    cameraR.add(camera.rotation, "z", 0).step(0.1).min(0).max(Math.PI);
+    const grpR = gui.addFolder("Carousel Rotation");
+    grpR.add(carousel.rotation, "x", 0).step(0.1).min(0).max(Math.PI);
+    grpR.add(carousel.rotation, "y", 0).step(0.1).min(0).max(Math.PI);
+    grpR.add(carousel.rotation, "z", 0).step(0.1).min(0).max(Math.PI);
 
     const gridHelper = new THREE.GridHelper(2000, 50);
     scene.add(gridHelper);
@@ -87,7 +87,7 @@ function init() {
 }
 
 function render() {
-  // requestAnimationFrame(render);
+  requestAnimationFrame(render);
   renderer.render(scene, camera);
   controls.update();
 }
@@ -185,6 +185,7 @@ function nxtModel(pX, pZ, modelIndex) {
     console.log("An error happened", err);
   }
 }
+
 let prevA = 2;
 let nxtA = 0;
 
@@ -201,32 +202,62 @@ function loading(xhr) {
   loadingP.textContent = percentTxt;
 }
 
+function changeOrientation() {
+  if (store.orientation === "vertical") {
+    carousel.rotation.z = Math.PI / 2;
+  } else {
+    carousel.rotation.z = 0;
+  }
+}
+
+function rotateLeft() {
+  const toBeRemoved = carousel.children[prevA];
+  carousel.remove(toBeRemoved);
+
+  if (store.orientation === "vertical") {
+    carousel.rotation.x -= Math.PI / 2;
+  } else {
+    carousel.rotation.y -= Math.PI / 2;
+  }
+
+  const { x, z } = toBeRemoved.position;
+  nxtModel(x, z, store.prevA);
+
+  if (prevA !== 0) prevA--;
+  if (nxtA <= 2) nxtA++;
+}
+
+function rotateRight() {
+  const toBeRemoved = carousel.children[nxtA];
+  carousel.remove(toBeRemoved);
+  if (store.orientation === "vertical") {
+    carousel.rotation.x += Math.PI / 2;
+  } else {
+    carousel.rotation.y += Math.PI / 2;
+  }
+  const { x, z } = toBeRemoved.position;
+  nxtModel(x, z, store.nxtA);
+
+  if (nxtA !== 0) nxtA--;
+  if (prevA <= 2) prevA++;
+}
+
 function controlHandler(e) {
   const { className } = e.target.parentElement;
   if (e.target.matches(".control-con *, .control-con *")) {
-    if (className === "next") store.removeOne(nxtA);
+    if (className === "vertical") {
+      store.toggleOrientation();
+      changeOrientation();
+      return;
+    } else if (className === "next") store.removeOne(nxtA);
     else if (className === "prev") store.removeOne(prevA);
 
     store[className]();
 
     if (className === "next") {
-      const toBeRemoved = carousel.children[nxtA];
-      carousel.remove(toBeRemoved);
-      carousel.rotation.y += Math.PI / 2;
-      const { x, z } = toBeRemoved.position;
-      nxtModel(x, z, store.nxtA);
-
-      if (nxtA !== 0) nxtA--;
-      if (prevA <= 2) prevA++;
+      rotateRight();
     } else if (className === "prev") {
-      const toBeRemoved = carousel.children[prevA];
-      carousel.remove(toBeRemoved);
-      carousel.rotation.y -= Math.PI / 2;
-      const { x, z } = toBeRemoved.position;
-      nxtModel(x, z, store.prevA);
-
-      if (prevA !== 0) prevA--;
-      if (nxtA <= 2) nxtA++;
+      rotateLeft();
     }
   }
 }
@@ -244,11 +275,14 @@ function resetBtnsDisable() {
   Array.from(controlBtns.children).forEach((btn) =>
     btn.removeAttribute("disabled", false)
   );
+  document.body.style.cursor = "default";
 }
+
 function btnsDisable() {
   Array.from(controlBtns.children).forEach((btn) =>
     btn.setAttribute("disabled", true)
   );
+  document.body.style.cursor = "wait";
 }
 
 function renderTxt() {

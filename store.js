@@ -1,6 +1,11 @@
 export default {
   nxtA: 3,
   prevA: 0,
+  orientation: "horizontal",
+  toggleOrientation() {
+    this.orientation =
+      this.orientation === "horizontal" ? "vertical" : "horizontal";
+  },
   currentObjs: [0, 1, 2, 3],
   removeOne(index) {
     this.currentObjs.splice(index, 1);
