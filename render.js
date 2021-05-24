@@ -12,7 +12,6 @@ import store from "./store.js";
 let renderer, scene, camera;
 let controls;
 let carousel = new THREE.Group();
-let active = 1;
 
 const loadingCon = document.querySelector(".loading");
 const loadingP = document.querySelector(".loading p:last-child");
@@ -32,7 +31,7 @@ function init() {
   scene = new THREE.Scene();
 
   camera = new THREE.PerspectiveCamera(75, ww / wh, 0.01, 2500);
-  camera.position.set(0, 290, 1500);
+  changeOrientation();
 
   // debugging
   debuggers();
@@ -51,9 +50,26 @@ function init() {
     cameraP.add(camera.position, "z", 0).step(0.1).min(-1000).max(1500);
 
     const grpR = gui.addFolder("Carousel Rotation");
-    grpR.add(carousel.rotation, "x", 0).step(0.1).min(0).max(Math.PI);
-    grpR.add(carousel.rotation, "y", 0).step(0.1).min(0).max(Math.PI);
-    grpR.add(carousel.rotation, "z", 0).step(0.1).min(0).max(Math.PI);
+    grpR
+      .add(carousel.rotation, "x", 0)
+      .step(0.1)
+      .min(-Math.PI * 2)
+      .max(Math.PI * 2);
+    grpR
+      .add(carousel.rotation, "y", 0)
+      .step(0.1)
+      .min(-Math.PI * 2)
+      .max(Math.PI * 2);
+    grpR
+      .add(carousel.rotation, "z", 0)
+      .step(0.1)
+      .min(-Math.PI * 2)
+      .max(Math.PI * 2);
+
+    const carP = gui.addFolder("Carousel Position");
+    carP.add(carousel.position, "x", 0).step(0.1).min(-100).max(1000);
+    carP.add(carousel.position, "y", 0).step(0.1).min(-1000).max(1000);
+    carP.add(carousel.position, "z", 0).step(0.1).min(-100).max(1000);
 
     const gridHelper = new THREE.GridHelper(2000, 50);
     scene.add(gridHelper);
@@ -79,15 +95,13 @@ function init() {
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.rotateSpeed = 0.5;
-    // controls.autoRotate = true;
-    // controls.autoRotateSpeed = 1.5;
 
     controls.update();
   }
 }
 
 function render() {
-  requestAnimationFrame(render);
+  // requestAnimationFrame(render);
   renderer.render(scene, camera);
   controls.update();
 }
@@ -132,6 +146,11 @@ function loadModels() {
       const { x, y, z } = model.oR;
       gltf.scene.rotation.set(x, y, z);
     }
+    // Position
+    {
+      if (model.oPy) gltf.scene.position.y = model.oPy;
+      if (model.oPz) gltf.scene.position.z = model.oPz;
+    }
 
     gltf.scene.userData.file = model.file;
     carousel.add(gltf.scene);
@@ -174,6 +193,12 @@ function nxtModel(pX, pZ, modelIndex) {
       gltf.scene.rotation.set(x, y, z);
     }
 
+    // Position
+    {
+      if (model.oPy) gltf.scene.position.y = model.oPy;
+      if (model.oPz) gltf.scene.position.z = model.oPz;
+    }
+
     gltf.scene.userData.file = model.file;
     carousel.add(gltf.scene);
 
@@ -188,6 +213,7 @@ function nxtModel(pX, pZ, modelIndex) {
 
 let prevA = 2;
 let nxtA = 0;
+let dir = "nxt";
 
 function loading(xhr) {
   const percent = parseFloat((xhr.loaded / xhr.total) * 100).toFixed(2);
@@ -205,17 +231,26 @@ function loading(xhr) {
 function changeOrientation() {
   if (store.orientation === "vertical") {
     carousel.rotation.z = Math.PI / 2;
+    camera.position.y = 90;
   } else {
     carousel.rotation.z = 0;
+    carousel.position.y = 200;
+    camera.position.set(0, 660, 1500);
   }
 }
 
 function rotateLeft() {
   const toBeRemoved = carousel.children[prevA];
+  console.log(
+    "to be removed index: ",
+    prevA,
+    " total length: ",
+    carousel.children.length
+  );
   carousel.remove(toBeRemoved);
 
   if (store.orientation === "vertical") {
-    carousel.rotation.x -= Math.PI / 2;
+    carousel.rotation.x += Math.PI / 2;
   } else {
     carousel.rotation.y -= Math.PI / 2;
   }
@@ -224,14 +259,22 @@ function rotateLeft() {
   nxtModel(x, z, store.prevA);
 
   if (prevA !== 0) prevA--;
-  if (nxtA <= 2) nxtA++;
+  if (nxtA < 2) nxtA++;
+
+  dir = "prev";
 }
 
 function rotateRight() {
   const toBeRemoved = carousel.children[nxtA];
+  console.log(
+    "to be removed index: ",
+    nxtA,
+    " total length: ",
+    carousel.children.length
+  );
   carousel.remove(toBeRemoved);
   if (store.orientation === "vertical") {
-    carousel.rotation.x += Math.PI / 2;
+    carousel.rotation.x -= Math.PI / 2;
   } else {
     carousel.rotation.y += Math.PI / 2;
   }
@@ -239,7 +282,9 @@ function rotateRight() {
   nxtModel(x, z, store.nxtA);
 
   if (nxtA !== 0) nxtA--;
-  if (prevA <= 2) prevA++;
+  if (prevA < 2) prevA++;
+
+  dir = "nxt";
 }
 
 function controlHandler(e) {
@@ -287,8 +332,12 @@ function btnsDisable() {
 
 function renderTxt() {
   const txtEl = document.querySelector(".txt p");
-  const linkTxt = "M";
-  const index = store.active;
+  let indexC = 1;
+  if ((dir === "nxt" && nxtA !== 0) || (dir === "prev" && prevA !== 0))
+    indexC = 0;
+
+  const linkTxt = carousel.children[indexC].userData.file;
+  const index = store.models.findIndex((m) => m.file === linkTxt);
 
   txtEl.innerHTML = `<a href="./singleModel.html?active=${index}" target="_blank">${linkTxt}</a>`;
 }

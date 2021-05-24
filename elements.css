@@ -5,6 +5,7 @@
 body {
   font-family: sans-serif;
   text-align: center;
+  cursor: wait;
 }
 
 .scene {
@@ -22,10 +23,6 @@ body {
   transform: translateX(-50%);
   z-index: 10;
   padding: 0.5rem 1rem;
-}
-
-.txt {
-  margin-bottom: 3rem;
 }
 
 .txt a {

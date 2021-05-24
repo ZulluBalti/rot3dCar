@@ -4,14 +4,10 @@ import { GLTFLoader } from "https://cdn.skypack.dev/three/examples/jsm/loaders/G
 
 import { OrbitControls } from "https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls.js";
 
-import { GUI } from "./build/dat.gui.module.js";
-const gui = new GUI();
-
 import store from "./store.js";
 
 let renderer, scene, camera;
 let controls;
-let object;
 
 let ww = window.innerWidth;
 let wh = window.innerHeight;
@@ -26,15 +22,11 @@ function init() {
   camera = new THREE.PerspectiveCamera(50, ww / wh, 0.01, 2000);
   camera.position.set(0, 0, 1000);
 
-  gui.add(camera.position, "x", 0).step(0.1).min(0).max(500);
-  gui.add(camera.position, "y", 200).step(0.1).min(0).max(500);
-  gui.add(camera.position, "z", 0).step(0.1).min(0).max(500);
-
   addAmbientLight();
   addDirLight();
   addOrbitControl();
 
-  //Load the Models
+  //Load the Model
   loadModel();
 
   function addAmbientLight() {
@@ -102,7 +94,6 @@ function loadModel() {
     gltf.scene.position.set(0, 0, 0);
 
     scene.add(gltf.scene);
-    object = gltf.scene;
     render();
   }
 
