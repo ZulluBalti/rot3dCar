@@ -232,14 +232,14 @@ function loading(xhr) {
 function changeOrientation() {
   if (store.orientation === "vertical") {
     {
-      const {x, y} = carousel.rotation;
-      carousel.rotation.set(x, y, Math.PI/2);
+      const { x, y } = carousel.rotation;
+      carousel.rotation.set(x, y, Math.PI / 2);
     }
     carousel.position.y = 0;
     camera.position.y = 90;
   } else {
     {
-      const {x, y} = carousel.rotation
+      const { x, y } = carousel.rotation;
       carousel.rotation.set(x, y, 0);
     }
     carousel.position.y = 200;
@@ -249,14 +249,46 @@ function changeOrientation() {
   render();
 }
 
-function rotateLeft() {
+function slowRot(original, axis, dir) {
+  return new Promise((resolve) => {
+    const limM = original - Math.PI / 2;
+    const limP = original + Math.PI / 2;
+
+    const rot = setInterval(() => {
+      if (dir === "+") {
+        let rotVal = carousel.rotation[axis] + 0.05;
+        if (rotVal <= limP) rotVal = limP;
+
+        carousel.rotation[axis] = rotVal;
+
+        if (rotVal <= limP) {
+          clearInterval(rot);
+          resolve();
+        }
+      } else if (dir === "-") {
+        let rotVal = carousel.rotation[axis] - 0.05;
+        if (rotVal <= limM) rotVal = limM;
+
+        carousel.rotation[axis] = rotVal;
+
+        if (rotVal <= limM) {
+          clearInterval(rot);
+          resolve();
+        }
+      }
+      render();
+    }, 10);
+  });
+}
+
+async function rotateLeft() {
   const toBeRemoved = carousel.children[prevA];
   carousel.remove(toBeRemoved);
 
   if (store.orientation === "vertical") {
-    carousel.rotation.x += Math.PI / 2;
+    await slowRot(carousel.rotation.x, "x", "+");
   } else {
-    carousel.rotation.y -= Math.PI / 2;
+    slowRot(carousel.rotation.y, "y", "-");
   }
 
   const { x, z } = toBeRemoved.position;
