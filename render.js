@@ -31,6 +31,8 @@ function init() {
   scene = new THREE.Scene();
 
   camera = new THREE.PerspectiveCamera(75, ww / wh, 0.01, 2500);
+  addOrbitControl();
+
   changeOrientation();
 
   // debugging
@@ -38,7 +40,6 @@ function init() {
 
   addAmbientLight();
   addDirLight();
-  addOrbitControl();
 
   //Load the Models
   loadModels();
@@ -230,23 +231,26 @@ function loading(xhr) {
 
 function changeOrientation() {
   if (store.orientation === "vertical") {
-    carousel.rotation.z = Math.PI / 2;
+    {
+      const {x, y} = carousel.rotation;
+      carousel.rotation.set(x, y, Math.PI/2);
+    }
+    carousel.position.y = 0;
     camera.position.y = 90;
   } else {
-    carousel.rotation.z = 0;
+    {
+      const {x, y} = carousel.rotation
+      carousel.rotation.set(x, y, 0);
+    }
     carousel.position.y = 200;
+
     camera.position.set(0, 660, 1500);
   }
+  render();
 }
 
 function rotateLeft() {
   const toBeRemoved = carousel.children[prevA];
-  console.log(
-    "to be removed index: ",
-    prevA,
-    " total length: ",
-    carousel.children.length
-  );
   carousel.remove(toBeRemoved);
 
   if (store.orientation === "vertical") {
@@ -266,12 +270,7 @@ function rotateLeft() {
 
 function rotateRight() {
   const toBeRemoved = carousel.children[nxtA];
-  console.log(
-    "to be removed index: ",
-    nxtA,
-    " total length: ",
-    carousel.children.length
-  );
+
   carousel.remove(toBeRemoved);
   if (store.orientation === "vertical") {
     carousel.rotation.x -= Math.PI / 2;
