@@ -249,46 +249,40 @@ function changeOrientation() {
   render();
 }
 
-function slowRot(original, axis, dir) {
-  return new Promise((resolve) => {
-    const limM = original - Math.PI / 2;
-    const limP = original + Math.PI / 2;
+function slowRot(axis, dir) {
+  const original = carousel.rotation[axis];
 
-    const rot = setInterval(() => {
-      if (dir === "+") {
-        let rotVal = carousel.rotation[axis] + 0.05;
-        if (rotVal <= limP) rotVal = limP;
+  let lim = original + Math.PI / 2;
+  if (dir === "-") lim = original - Math.PI / 2;
 
-        carousel.rotation[axis] = rotVal;
+  animate();
 
-        if (rotVal <= limP) {
-          clearInterval(rot);
-          resolve();
-        }
-      } else if (dir === "-") {
-        let rotVal = carousel.rotation[axis] - 0.05;
-        if (rotVal <= limM) rotVal = limM;
+  function animate() {
+    const id = requestAnimationFrame(animate);
 
-        carousel.rotation[axis] = rotVal;
+    let rotVal = carousel.rotation[axis];
+    rotVal += dir === "+" ? 0.08 : -0.08;
 
-        if (rotVal <= limM) {
-          clearInterval(rot);
-          resolve();
-        }
-      }
-      render();
-    }, 10);
-  });
+    if ((dir === "-" && rotVal <= lim) || (dir === "+" && rotVal >= lim))
+      rotVal = lim;
+
+    carousel.rotation[axis] = rotVal;
+
+    if ((dir === "-" && rotVal <= lim) || (dir === "+" && rotVal >= lim))
+      cancelAnimationFrame(id);
+
+    render();
+  }
 }
 
-async function rotateLeft() {
+function rotateLeft() {
   const toBeRemoved = carousel.children[prevA];
   carousel.remove(toBeRemoved);
 
   if (store.orientation === "vertical") {
-    await slowRot(carousel.rotation.x, "x", "+");
+    slowRot("x", "+");
   } else {
-    slowRot(carousel.rotation.y, "y", "-");
+    slowRot("y", "-");
   }
 
   const { x, z } = toBeRemoved.position;
@@ -305,9 +299,11 @@ function rotateRight() {
 
   carousel.remove(toBeRemoved);
   if (store.orientation === "vertical") {
-    carousel.rotation.x -= Math.PI / 2;
+    slowRot("x", "-");
+    // carousel.rotation.x -= Math.PI / 2;
   } else {
-    carousel.rotation.y += Math.PI / 2;
+    slowRot("y", "+");
+    // carousel.rotation.y += Math.PI / 2;
   }
   const { x, z } = toBeRemoved.position;
   nxtModel(x, z, store.nxtA);
