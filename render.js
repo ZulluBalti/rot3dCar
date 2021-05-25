@@ -4,9 +4,6 @@ import { GLTFLoader } from "https://cdn.skypack.dev/three/examples/jsm/loaders/G
 
 import { OrbitControls } from "https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls.js";
 
-import { GUI } from "./build/dat.gui.module.js";
-const gui = new GUI();
-
 import store from "./store.js";
 
 let renderer, scene, camera;
@@ -35,46 +32,11 @@ function init() {
 
   changeOrientation();
 
-  // debugging
-  debuggers();
-
   addAmbientLight();
   addDirLight();
 
   //Load the Models
   loadModels();
-
-  function debuggers() {
-    const cameraP = gui.addFolder("Camera Position");
-    cameraP.add(camera.position, "x", 0).step(0.1).min(-1000).max(1000);
-    cameraP.add(camera.position, "y", 200).step(0.1).min(-1000).max(1000);
-    cameraP.add(camera.position, "z", 0).step(0.1).min(-1000).max(1500);
-
-    const grpR = gui.addFolder("Carousel Rotation");
-    grpR
-      .add(carousel.rotation, "x", 0)
-      .step(0.1)
-      .min(-Math.PI * 2)
-      .max(Math.PI * 2);
-    grpR
-      .add(carousel.rotation, "y", 0)
-      .step(0.1)
-      .min(-Math.PI * 2)
-      .max(Math.PI * 2);
-    grpR
-      .add(carousel.rotation, "z", 0)
-      .step(0.1)
-      .min(-Math.PI * 2)
-      .max(Math.PI * 2);
-
-    const carP = gui.addFolder("Carousel Position");
-    carP.add(carousel.position, "x", 0).step(0.1).min(-100).max(1000);
-    carP.add(carousel.position, "y", 0).step(0.1).min(-1000).max(1000);
-    carP.add(carousel.position, "z", 0).step(0.1).min(-100).max(1000);
-
-    const gridHelper = new THREE.GridHelper(2000, 50);
-    scene.add(gridHelper);
-  }
 
   function addAmbientLight() {
     const color = 0xb97a20; // brownish orange
