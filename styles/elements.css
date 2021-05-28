@@ -28,14 +28,15 @@ body {
 .txt a {
   text-decoration: none;
   text-transform: uppercase;
-  color: white;
+  color: #2a85ec;
 }
 
 .txt a:hover {
-  color: #eee;
+  color: #68aeff;
 }
 
 .control-con {
+  margin-top: 0.5rem;
   display: grid;
   grid-template-columns: 50px 50px;
   grid-template-rows: auto auto;
