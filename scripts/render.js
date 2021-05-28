@@ -1,6 +1,7 @@
 import * as THREE from "https://cdn.skypack.dev/three";
 
 import { GLTFLoader } from "https://cdn.skypack.dev/three/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from "https://cdn.skypack.dev/three/examples/jsm/loaders/DRACOLoader.js";
 
 import { OrbitControls } from "https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls.js";
 
@@ -18,10 +19,26 @@ controlBtns.addEventListener("click", controlHandler, false);
 let ww = window.innerWidth;
 let wh = window.innerHeight;
 
+// loader
+const loader = new GLTFLoader();
+
+const dl = new DRACOLoader();
+dl.setDecoderPath("/scripts/decoder/");
+loader.setDRACOLoader(dl);
+
 init();
 
 function init() {
-  renderer = new THREE.WebGLRenderer({ antialis: true });
+  let pixelRatio = window.devicePixelRatio;
+
+  let AA = true;
+  if (pixelRatio > 1) AA = false;
+
+  renderer = new THREE.WebGLRenderer({
+    antialis: AA,
+    powerPreference: "high-performance",
+  });
+
   document.querySelector(".scene").appendChild(renderer.domElement);
   renderer.setSize(ww, wh);
 
@@ -85,7 +102,6 @@ function loadModels() {
   setLoading();
   btnsDisable();
 
-  const loader = new GLTFLoader();
   loader.load(model.file, renderFile, loading, error);
 
   function renderFile(gltf) {
@@ -135,7 +151,6 @@ function nxtModel(pX, pZ, modelIndex) {
   setLoading();
   btnsDisable();
 
-  const loader = new GLTFLoader();
   loader.load(model.file, renderFile, loading, error);
 
   function renderFile(gltf) {

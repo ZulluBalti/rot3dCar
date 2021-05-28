@@ -1,6 +1,7 @@
 import * as THREE from "https://cdn.skypack.dev/three";
 
 import { GLTFLoader } from "https://cdn.skypack.dev/three/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from "https://cdn.skypack.dev/three/examples/jsm/loaders/DRACOLoader.js";
 
 import { OrbitControls } from "https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls.js";
 
@@ -13,7 +14,16 @@ let ww = window.innerWidth;
 let wh = window.innerHeight;
 
 function init() {
-  renderer = new THREE.WebGLRenderer({ antialis: true });
+  let pixelRatio = window.devicePixelRatio;
+
+  let AA = true;
+  if (pixelRatio > 1) AA = false;
+
+  renderer = new THREE.WebGLRenderer({
+    antialis: AA,
+    powerPreference: "high-performance",
+  });
+
   document.querySelector(".scene").appendChild(renderer.domElement);
   renderer.setSize(ww, wh);
 
@@ -72,6 +82,11 @@ function loadModel() {
 
   const model = store.models[active];
   const loader = new GLTFLoader();
+
+  const dl = new DRACOLoader();
+  dl.setDecoderPath("/scripts/decoder/");
+  loader.setDRACOLoader(dl);
+
   loader.load(model.file, renderFile, loading, error);
 
   function renderFile(gltf) {
