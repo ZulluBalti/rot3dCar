@@ -87,6 +87,7 @@ function render() {
     ch.rotation.x += 0.01;
     ch.rotation.z += 0.01;
   });
+
   renderer.render(scene, camera);
   controls.update();
 }
@@ -185,7 +186,6 @@ function nxtModel(pX, pZ, modelIndex) {
     gltf.scene.userData.file = model.file;
     carousel.add(gltf.scene);
 
-    render();
     loadModels();
   }
 
@@ -228,7 +228,7 @@ function changeOrientation() {
 
     camera.position.set(0, 660, 1500);
   }
-  render();
+  controls.update();
 }
 
 function slowRot(axis, dir) {
@@ -253,7 +253,7 @@ function slowRot(axis, dir) {
     if ((dir === "-" && rotVal <= lim) || (dir === "+" && rotVal >= lim))
       cancelAnimationFrame(id);
 
-    render();
+    controls.update();
   }
 }
 
