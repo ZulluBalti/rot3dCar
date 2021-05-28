@@ -1,6 +1,8 @@
 node_modules/
 .vscode
 index3.html
-render3.js
-build/dat.gui.js
-build/dat.gui.modules.js
+test.html
+scripts/render3.js
+scripts/soundCloudPlayer.js
+scripts/build/dat.gui.module.js
+styles/soundCloud.css
