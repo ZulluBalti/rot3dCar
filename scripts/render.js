@@ -64,7 +64,12 @@ function init() {
 }
 
 function render() {
-  // requestAnimationFrame(render);
+  requestAnimationFrame(render);
+
+  carousel.children.forEach((ch) => {
+    ch.rotation.x += 0.01;
+    ch.rotation.z += 0.01;
+  });
   renderer.render(scene, camera);
   controls.update();
 }

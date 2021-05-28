@@ -7,7 +7,7 @@ import { OrbitControls } from "https://cdn.skypack.dev/three/examples/jsm/contro
 import store from "./store.js";
 
 let renderer, scene, camera;
-let controls;
+let controls, currentModel;
 
 let ww = window.innerWidth;
 let wh = window.innerHeight;
@@ -59,6 +59,9 @@ function init() {
 const render = function () {
   requestAnimationFrame(render);
 
+  currentModel.rotation.x += 0.01;
+  currentModel.rotation.z += 0.01;
+
   renderer.render(scene, camera);
   controls.update();
 };
@@ -92,6 +95,8 @@ function loadModel() {
     }
     // Position
     gltf.scene.position.set(0, 0, 0);
+
+    currentModel = gltf.scene;
 
     scene.add(gltf.scene);
     render();
