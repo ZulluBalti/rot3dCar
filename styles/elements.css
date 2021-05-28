@@ -78,11 +78,12 @@ button.vertical {
 
 .loading {
   position: fixed;
-  top: 0;
+  top: 50%;
   left: 0;
   width: 100%;
   z-index: 10;
   display: none;
+  transform: translateY(-50%);
 }
 
 .loading.active {

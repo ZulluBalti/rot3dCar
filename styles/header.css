@@ -20,6 +20,13 @@ header img {
   width: 20px;
   height: 20px;
 }
+header h1 a {
+  text-decoration: none;
+  color: #2a85ec;
+}
+header h1 a:hover {
+  color: #68aeff;
+}
 header div:last-child {
   flex-grow: 1;
 }
