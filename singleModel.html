@@ -34,7 +34,20 @@ favicon-16x16.png"
     />
     <meta name="msapplication-TileColor" content="#da532c" />
 
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
+      type="text/css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,800"
+      type="text/css"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="./styles/header.css" />
+    <link rel="stylesheet" href="./styles/soundCloud.css" />
+
     <title>DXADLY - Single Model</title>
   </head>
   <body>
@@ -50,12 +63,74 @@ favicon-16x16.png"
           <img src="assets/icons/instagram.png" alt="Instagram" />
         </a>
       </div>
-      <div>
+      <div class="headline">
         <h1><a href="/">DXADLY</a></h1>
         <p>GENZDX PORTFORLIO</p>
       </div>
+
+      <div class="player">
+        <div class="button play">
+          <i aria-hidden="true" class="fa fa-play"></i
+          ><i aria-hidden="true" class="fa fa-pause"></i>
+        </div>
+        <div class="button bottom">
+          <i aria-hidden="true" class="fa fa-bars"></i>
+        </div>
+        <div class="button next">
+          <i aria-hidden="true" class="fa fa-forward"></i>
+        </div>
+        <div class="button previous">
+          <i aria-hidden="true" class="fa fa-backward"></i>
+        </div>
+        <i class="fa fa-soundcloud" aria-hidden="true"></i>
+        <div class="list">
+          <ul></ul>
+        </div>
+        <div class="controller">
+          <div class="button previous">
+            <i aria-hidden="true" class="fa fa-backward"></i>
+          </div>
+          <div class="button play">
+            <i aria-hidden="true" class="fa fa-play"></i
+            ><i aria-hidden="true" class="fa fa-pause"></i>
+          </div>
+          <div class="button next">
+            <i aria-hidden="true" class="fa fa-forward"></i>
+          </div>
+          <div class="button close">
+            <i aria-hidden="true" class="fa fa-close"></i>
+          </div>
+          <div class="progress-bar">
+            <span class="progress"></span>
+            <div
+              class="wave"
+              style="
+                background-image: url('https://w1.sndcdn.com/8vvxygw3jJov_m.png');
+              "
+            ></div>
+          </div>
+          <div class="info-content">
+            <img
+              src="https://i1.sndcdn.com/artworks-000160121089-u63pt0-t500x500.jpg"
+            />
+            <div class="info">
+              <h2 class="artist">I Am Karate</h2>
+              <p class="song">Bitter</p>
+            </div>
+          </div>
+        </div>
+        <div class="progress-bar"><span class="progress"></span></div>
+        <audio id="player" autoplay></audio>
+      </div>
     </header>
     <div class="scene"></div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
     <script type="module" src="./scripts/singleModel.js"></script>
+    <script type="module" src="./scripts/soundCloudPlayer.js"></script>
   </body>
 </html>

@@ -303,14 +303,14 @@ function controlHandler(e) {
       store.toggleOrientation();
       changeOrientation();
       return;
-    } else if (className === "next") store.removeOne(nxtA);
-    else if (className === "prev") store.removeOne(prevA);
+    } else if (className === "cNext") store.removeOne(nxtA);
+    else if (className === "cPrev") store.removeOne(prevA);
 
     store[className]();
 
-    if (className === "next") {
+    if (className === "cNext") {
       rotateRight();
-    } else if (className === "prev") {
+    } else if (className === "cPrev") {
       rotateLeft();
     }
   }

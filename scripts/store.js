@@ -10,7 +10,7 @@ export default {
   removeOne(index) {
     this.currentObjs.splice(index, 1);
   },
-  next() {
+  cNext() {
     this.nxtA++;
     if (this.nxtA >= this.models.length) this.nxtA = 0;
 
@@ -22,7 +22,7 @@ export default {
     this.currentObjs.push(this.nxtA);
   },
 
-  prev() {
+  cPrev() {
     this.prevA--;
     if (this.prevA < 0) this.prevA = this.models.length - 1;
 
