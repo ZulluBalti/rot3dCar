@@ -1,0 +1,586 @@
+ol,
+ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption,
+th,
+td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+q,
+blockquote {
+  quotes: none;
+}
+q:before,
+q:after,
+blockquote:before,
+blockquote:after {
+  content: "";
+  content: none;
+}
+
+a img {
+  border: none;
+}
+
+.player {
+  width: 150px;
+  height: 250px;
+}
+
+.player > .progress-bar {
+  -moz-transition: opacity 400ms ease-in-out 500ms;
+  -o-transition: opacity 400ms ease-in-out 500ms;
+  -webkit-transition: opacity 400ms ease-in-out;
+  -webkit-transition-delay: 500ms;
+  transition: opacity 400ms ease-in-out 500ms;
+  position: absolute;
+
+  width: 155px;
+  height: 155px;
+  top: 50%;
+  left: 50%;
+
+  z-index: -1;
+  overflow: hidden;
+  -moz-transform: rotate(0deg) translate(-50%, -50%);
+  -ms-transform: rotate(0deg) translate(-50%, -50%);
+  -webkit-transform: rotate(0deg) translate(-50%, -50%);
+  transform: rotate(0deg) translate(-50%, -50%);
+  -webkit-clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 50% 100%);
+  -moz-clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 50% 100%);
+  -ms-clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 50% 100%);
+  clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 50% 100%);
+}
+.player > .progress-bar > span.progress {
+  -moz-transition: all 0ms ease-in-out 0ms;
+  -o-transition: all 0ms ease-in-out 0ms;
+  -webkit-transition: all 0ms ease-in-out;
+  -webkit-transition-delay: 0ms;
+  transition: all 0ms ease-in-out 0ms;
+  position: absolute;
+  bottom: 0%;
+  left: 0%;
+  width: 100%;
+  height: 0%;
+  background: #e67a34;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+.player > .button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  background: #e67a34;
+  -moz-transition: top 200ms ease-in-out 0ms,
+    -moz-transform 200ms ease-in-out 400ms, width 200ms ease-in-out 200ms,
+    height 200ms ease-in-out 200ms;
+  -o-transition: top 200ms ease-in-out 0ms, -o-transform 200ms ease-in-out 400ms,
+    width 200ms ease-in-out 200ms, height 200ms ease-in-out 200ms;
+  -webkit-transition: top 200ms ease-in-out, -webkit-transform 200ms ease-in-out,
+    width 200ms ease-in-out, height 200ms ease-in-out;
+  -webkit-transition-delay: 0ms, 400ms, 200ms, 200ms;
+  transition: top 200ms ease-in-out 0ms, transform 200ms ease-in-out 400ms,
+    width 200ms ease-in-out 200ms, height 200ms ease-in-out 200ms;
+}
+.player > .button i {
+  -moz-transition: font-size 200ms ease-in-out 200ms;
+  -o-transition: font-size 200ms ease-in-out 200ms;
+  -webkit-transition: font-size 200ms ease-in-out;
+  -webkit-transition-delay: 200ms;
+  transition: font-size 200ms ease-in-out 200ms;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: white;
+  font-size: 12pt;
+  -moz-transform: translate3d(-50%, -50%, 0) rotate(-45deg);
+  -ms-transform: translate3d(-50%, -50%, 0) rotate(-45deg);
+  -webkit-transform: translate3d(-50%, -50%, 0) rotate(-45deg);
+  transform: translate3d(-50%, -50%, 0) rotate(-45deg);
+}
+.player > .button:hover {
+  background: #a9490b;
+  cursor: pointer;
+}
+.player > .button:active {
+  background: #ffac76;
+}
+.player > .button.play {
+  -moz-transform: translate3d(-50%, -120%, 0) rotate(45deg);
+  -ms-transform: translate3d(-50%, -120%, 0) rotate(45deg);
+  -webkit-transform: translate3d(-50%, -120%, 0) rotate(45deg);
+  transform: translate3d(-50%, -120%, 0) rotate(45deg);
+}
+.player > .button.play .fa-play {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+.player > .button.play .fa-pause {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+.player > .button.play.active .fa-play {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+.player > .button.play.active .fa-pause {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+.player > .button.bottom {
+  -moz-transform: translate3d(-50%, 20%, 0) rotate(45deg);
+  -ms-transform: translate3d(-50%, 20%, 0) rotate(45deg);
+  -webkit-transform: translate3d(-50%, 20%, 0) rotate(45deg);
+  transform: translate3d(-50%, 20%, 0) rotate(45deg);
+}
+.player > .button.next {
+  -moz-transform: translate3d(20%, -50%, 0) rotate(45deg);
+  -ms-transform: translate3d(20%, -50%, 0) rotate(45deg);
+  -webkit-transform: translate3d(20%, -50%, 0) rotate(45deg);
+  transform: translate3d(20%, -50%, 0) rotate(45deg);
+}
+.player > .button.previous {
+  -moz-transform: translate3d(-120%, -50%, 0) rotate(45deg);
+  -ms-transform: translate3d(-120%, -50%, 0) rotate(45deg);
+  -webkit-transform: translate3d(-120%, -50%, 0) rotate(45deg);
+  transform: translate3d(-120%, -50%, 0) rotate(45deg);
+}
+.player .list {
+  -moz-transition: height 200ms ease-in-out 0ms;
+  -o-transition: height 200ms ease-in-out 0ms;
+  -webkit-transition: height 200ms ease-in-out;
+  -webkit-transition-delay: 0ms;
+  transition: height 200ms ease-in-out 0ms;
+  width: 200%;
+  height: 0px;
+  background-color: white;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.player .list ul {
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.player .list ul li.song {
+  cursor: pointer;
+  width: 100%;
+  min-height: 30px;
+  display: table;
+  text-align: left;
+  padding: 5px 0px;
+  color: #4a4a4a;
+}
+.player .list ul li.song:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+}
+.player .list ul li.song:active {
+  background: #d4d4d4;
+}
+.player .list ul li.song.current {
+  background: #ececec;
+}
+.player .list ul li.song.current.playing i.fa-pause {
+  display: block;
+}
+.player .list ul li.song.current.playing i.fa-play {
+  display: none;
+}
+.player .list ul li.song img {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle;
+  height: auto;
+  width: 30px;
+}
+.player .list ul li.song .info {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 150px;
+}
+.player .list ul li.song .info h2.artist {
+  font-size: 6pt;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.player .list ul li.song .info p.song {
+  font-size: 8pt;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.player .list ul li.song p.duration {
+  color: #9c9c9c;
+  font-size: 6pt;
+  float: right;
+  padding: 10px 0px 10px 10px;
+}
+.player .list ul li.song i.fa-pause {
+  display: none;
+}
+.player .list ul li.song .play {
+  float: right;
+  font-size: 8pt;
+  padding: 10px 20px 10px 10px;
+}
+.player .controller {
+  -moz-transition: opacity 200ms ease-in-out 0ms;
+  -o-transition: opacity 200ms ease-in-out 0ms;
+  -webkit-transition: opacity 200ms ease-in-out;
+  -webkit-transition-delay: 0ms;
+  transition: opacity 200ms ease-in-out 0ms;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  position: absolute;
+  top: -50px;
+  width: 200%;
+  height: 40px;
+  left: -50%;
+}
+.player .controller i {
+  font-size: 12pt;
+  color: #4a4a4a;
+}
+.player .controller > .button {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+}
+.player .controller > .button.play {
+  left: 50%;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.player .controller > .button.play > i {
+  -moz-transition: opacity 100ms ease-in-out 0ms;
+  -o-transition: opacity 100ms ease-in-out 0ms;
+  -webkit-transition: opacity 100ms ease-in-out;
+  -webkit-transition-delay: 0ms;
+  transition: opacity 100ms ease-in-out 0ms;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.player .controller > .button.previous {
+  left: 50%;
+  -moz-transform: translate(-250%, -50%);
+  -ms-transform: translate(-250%, -50%);
+  -webkit-transform: translate(-250%, -50%);
+  transform: translate(-250%, -50%);
+}
+.player .controller > .button.next {
+  left: 50%;
+  -moz-transform: translate(150%, -50%);
+  -ms-transform: translate(150%, -50%);
+  -webkit-transform: translate(150%, -50%);
+  transform: translate(150%, -50%);
+}
+.player .controller > .button.close {
+  right: 0;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.player .controller .play .fa-play {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+.player .controller .play .fa-pause {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+.player .controller .play.active .fa-play {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+.player .controller .play.active .fa-pause {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+.player .controller .info-content {
+  position: absolute;
+  left: 50%;
+  top: -65px;
+  -moz-transform: translate(-31px, -30px);
+  -ms-transform: translate(-31px, -30px);
+  -webkit-transform: translate(-31px, -30px);
+  transform: translate(-31px, -30px);
+  display: table;
+}
+.player .controller .info-content img {
+  width: 60px;
+  vertical-align: middle;
+  border: 1px solid #f3f3f3;
+}
+.player .controller .info-content .info {
+  width: 400px;
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  text-align: center;
+  -moz-transform: translate(-50%, 0%);
+  -ms-transform: translate(-50%, 0%);
+  -webkit-transform: translate(-50%, 0%);
+  transform: translate(-50%, 0%);
+}
+.player .controller .info-content .info h2.artist {
+  font-size: 6pt;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.player .controller .info-content .info p.song {
+  font-size: 8pt;
+}
+.player .controller > .progress-bar {
+  -moz-transition: all 200ms step-start 200ms;
+  -o-transition: all 200ms step-start 200ms;
+  -webkit-transition: all 200ms step-start;
+  -webkit-transition-delay: 200ms;
+  transition: all 200ms step-start 200ms;
+  position: absolute;
+
+  /* width: 40px;
+  height: 400px;
+  top: -179px;
+  left: 45%;
+  */
+
+  width: 42px;
+  height: 300px;
+  top: -129px;
+  left: 43%;
+
+  z-index: -1;
+  overflow: hidden;
+  -moz-transform: rotate(90deg) translate(0%, 0%);
+  -ms-transform: rotate(90deg) translate(0%, 0%);
+  -webkit-transform: rotate(90deg) translate(0%, 0%);
+  transform: rotate(90deg) translate(0%, 0%);
+  -webkit-clip-path: none;
+  -moz-clip-path: none;
+  -ms-clip-path: none;
+  clip-path: none;
+}
+.player .controller > .progress-bar .wave {
+  -moz-transition: all 0ms ease-in-out 0ms;
+  -o-transition: all 0ms ease-in-out 0ms;
+  -webkit-transition: all 0ms ease-in-out;
+  -webkit-transition-delay: 0ms;
+  transition: all 0ms ease-in-out 0ms;
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+
+  width: 300px;
+  height: 42px;
+  left: -130px;
+  top: 130px;
+
+  position: absolute;
+  -moz-background-size: 100% 100%;
+  -o-background-size: 100% 100%;
+  -webkit-background-size: 100% 100%;
+  background-size: 100% 100%;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+.player .controller > .progress-bar > span.progress {
+  -moz-transition: all 0ms ease-in-out 0ms;
+  -o-transition: all 0ms ease-in-out 0ms;
+  -webkit-transition: all 0ms ease-in-out;
+  -webkit-transition-delay: 0ms;
+  transition: all 0ms ease-in-out 0ms;
+  position: absolute;
+  bottom: 0%;
+  left: 0%;
+  width: 100%;
+  height: 0%;
+  background: #e67a34;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+.player.active .fa-soundcloud {
+  display: none;
+}
+.player.active > .button {
+  -moz-transition: top 200ms ease-in-out 400ms,
+    -moz-transform 200ms ease-in-out 0ms, width 200ms ease-in-out 200ms,
+    height 200ms ease-in-out 200ms;
+  -o-transition: top 200ms ease-in-out 400ms, -o-transform 200ms ease-in-out 0ms,
+    width 200ms ease-in-out 200ms, height 200ms ease-in-out 200ms;
+  -webkit-transition: top 200ms ease-in-out, -webkit-transform 200ms ease-in-out,
+    width 200ms ease-in-out, height 200ms ease-in-out;
+  -webkit-transition-delay: 400ms, 0ms, 200ms, 200ms;
+  transition: top 200ms ease-in-out 400ms, transform 200ms ease-in-out 0ms,
+    width 200ms ease-in-out 200ms, height 200ms ease-in-out 200ms;
+  width: 100%;
+  height: 10px;
+}
+.player.active > .button i {
+  -moz-transition: font-size 50ms ease-in-out 0ms;
+  -o-transition: font-size 50ms ease-in-out 0ms;
+  -webkit-transition: font-size 50ms ease-in-out;
+  -webkit-transition-delay: 0ms;
+  transition: font-size 50ms ease-in-out 0ms;
+  font-size: 0pt;
+}
+.player.active > .button.play {
+  top: 0;
+  -moz-transform: translate3d(-100%, -100%, 0) rotate(0deg);
+  -ms-transform: translate3d(-100%, -100%, 0) rotate(0deg);
+  -webkit-transform: translate3d(-100%, -100%, 0) rotate(0deg);
+  transform: translate3d(-100%, -100%, 0) rotate(0deg);
+}
+.player.active > .button.bottom {
+  top: 100%;
+  -moz-transform: translate3d(0%, 0%, 0) rotate(0deg);
+  -ms-transform: translate3d(0%, 0%, 0) rotate(0deg);
+  -webkit-transform: translate3d(0%, 0%, 0) rotate(0deg);
+  transform: translate3d(0%, 0%, 0) rotate(0deg);
+}
+.player.active > .button.previous {
+  top: 100%;
+  -moz-transform: translate3d(-100%, 0%, 0) rotate(0deg);
+  -ms-transform: translate3d(-100%, 0%, 0) rotate(0deg);
+  -webkit-transform: translate3d(-100%, 0%, 0) rotate(0deg);
+  transform: translate3d(-100%, 0%, 0) rotate(0deg);
+}
+.player.active > .button.next {
+  top: 0;
+  -moz-transform: translate3d(0%, -100%, 0) rotate(0deg);
+  -ms-transform: translate3d(0%, -100%, 0) rotate(0deg);
+  -webkit-transform: translate3d(0%, -100%, 0) rotate(0deg);
+  transform: translate3d(0%, -100%, 0) rotate(0deg);
+}
+.player.active > .button:hover {
+  background: #e67a34;
+  cursor: default;
+}
+.player.active > .button:active {
+  background: #e67a34;
+}
+.player.active .list {
+  -moz-transition: height 200ms ease-in-out 400ms;
+  -o-transition: height 200ms ease-in-out 400ms;
+  -webkit-transition: height 200ms ease-in-out;
+  -webkit-transition-delay: 400ms;
+  transition: height 200ms ease-in-out 400ms;
+  height: 100%;
+}
+.player.active > .progress-bar {
+  -moz-transition: opacity 200ms ease-in-out 0ms;
+  -o-transition: opacity 200ms ease-in-out 0ms;
+  -webkit-transition: opacity 200ms ease-in-out;
+  -webkit-transition-delay: 0ms;
+  transition: opacity 200ms ease-in-out 0ms;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+.player.active .controller {
+  -moz-transition: opacity 200ms ease-in-out 400ms;
+  -o-transition: opacity 200ms ease-in-out 400ms;
+  -webkit-transition: opacity 200ms ease-in-out;
+  -webkit-transition-delay: 400ms;
+  transition: opacity 200ms ease-in-out 400ms;
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+
+.fa-soundcloud {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: white;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
+  opacity: 0.4;
+}
+.fa-soundcloud:before {
+  font-size: 21pt;
+}
+
+.peninfo {
+  background: rgba(240, 240, 240, 0.8);
+  -moz-border-radius: 999px;
+  -webkit-border-radius: 999px;
+  border-radius: 999px;
+  width: 130px;
+  height: 130px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 99999;
+  -moz-transition: ease-in-out 250ms opacity;
+  -o-transition: ease-in-out 250ms opacity;
+  -webkit-transition: ease-in-out 250ms opacity;
+  transition: ease-in-out 250ms opacity;
+}
+.peninfo span.tiny {
+  font-size: 8pt;
+  color: #9c9c9c;
+}
+.peninfo h2 {
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: #1b1b1b;
+  font-weight: 200;
+  font-size: 12pt;
+}
+.peninfo a,
+.peninfo h2 a {
+  -moz-transition: ease-in-out 600ms all;
+  -o-transition: ease-in-out 600ms all;
+  -webkit-transition: ease-in-out 600ms all;
+  transition: ease-in-out 600ms all;
+  font-weight: 300;
+  text-decoration: none;
+  color: #40a8de;
+}
+.peninfo .fa-heart {
+  color: #ff1a1a;
+}
+.peninfo a {
+  font-weight: 200;
+  color: #2eb82e;
+}
+.peninfo a:hover,
+.peninfo h2 a:hover {
+  opacity: 0.7;
+}

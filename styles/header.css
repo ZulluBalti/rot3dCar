@@ -14,9 +14,8 @@ header {
   padding: 1rem;
   color: white;
   font-family: ariel;
-  text-align: center;
 }
-header img {
+header .icons img {
   width: 20px;
   height: 20px;
 }
@@ -27,8 +26,20 @@ header h1 a {
 header h1 a:hover {
   color: #68aeff;
 }
-header div:last-child {
+header .headline {
+  text-align: center;
   flex-grow: 1;
+}
+
+header .player {
+  position: absolute;
+  top: -2rem;
+  right: 0rem;
+}
+
+header .player.active {
+  top: 8rem;
+  right: 4rem;
 }
 
 .icons {

@@ -24,7 +24,7 @@ export default [
     artist: "dxadly",
   },
   {
-    title: "no need to shout 〤 ft . marsmilly",
+    title: "no need to shout ft marsmilly",
     imgSrc: "https://i1.sndcdn.com/artworks-Py22QGyMl0Q6tiHU-jzNqmg-large.jpg",
     songSrc:
       "https://dl.dropbox.com/sh/upbsqvdeci8lj51/AADjme8e59uFf4T_7OR1rzMka/no%20need%20to%20shout%20ft%20.%20marsmilly.mp3",
@@ -32,7 +32,7 @@ export default [
     artist: "dxadly",
   },
   {
-    title: "anime girls - 〚d e m o〛 ft marsmilly + choiboi",
+    title: "anime girls 〚d e m o〛 ft marsmilly + choiboi",
     imgSrc: "https://i1.sndcdn.com/artworks-QdvlfXBJzj7Em1kj-pznDxQ-large.jpg",
     songSrc:
       "https://dl.dropbox.com/sh/upbsqvdeci8lj51/AAADlEJlD0BWZB9Y-jqA6T5da/anime%20girlsdemoft.%20marsmilly%20choiboi.mp3",
@@ -72,7 +72,7 @@ export default [
   // },
   {
     title:
-      "hermes off-white【ｄｅｍｏ】† ft choiboi & marssmilly",
+      "hermes off-white【ｄｅｍｏ】ft choiboi & marssmilly",
     imgSrc: "https://i1.sndcdn.com/artworks-qFgqHUWNPcPaccvy-CjwXaw-large.jpg",
     songSrc:
       "https://dl.dropbox.com/sh/upbsqvdeci8lj51/AAC8MRiv5UhysKA2ec7inSkLa/hermes%20off-whiteft%20choiboi.mp3",
