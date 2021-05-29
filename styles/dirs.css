@@ -1,0 +1,29 @@
+.dirs {
+  position: fixed;
+  bottom: 0.5rem;
+  right: 0.5rem;
+}
+.dirs .placeholder {
+  background-image: url("/assets/icons/dir-placeholder.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 140px;
+  height: 75px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.dirs a {
+  text-decoration: none;
+}
+.placeholder span {
+  color: rgb(26, 154, 240);
+}
+.placeholder:hover span {
+  color: rgb(9, 112, 180);
+  font-weight: bold;
+}

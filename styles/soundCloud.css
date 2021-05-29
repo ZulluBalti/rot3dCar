@@ -228,7 +228,7 @@ a img {
   overflow: hidden;
 }
 .player .list ul li.song p.duration {
-  color: #9c9c9c;
+  color: #776d6d;
   font-size: 6pt;
   float: right;
   padding: 10px 0px 10px 10px;
@@ -257,7 +257,7 @@ a img {
 }
 .player .controller i {
   font-size: 12pt;
-  color: #4a4a4a;
+  color: #c2bebe;
 }
 .player .controller > .button {
   cursor: pointer;

@@ -35,12 +35,12 @@ header .headline {
 header .player {
   position: absolute;
   top: -2rem;
-  right: 0rem;
+  right: 0.5rem;
 }
 
 header .player.active {
   top: 8rem;
-  right: 4rem;
+  right: 4.5rem;
 }
 
 .icons {
