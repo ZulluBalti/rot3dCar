@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/dxadlyne/public_html/
+    - export DEPLOYPATH=/home4/dxadlyne/public_html/
     - /bin/cp -R assets $DEPLOYPATH
     - /bin/cp -R scripts $DEPLOYPATH
     - /bin/cp -R styles $DEPLOYPATH
