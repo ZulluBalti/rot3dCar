@@ -186,7 +186,7 @@ function nxtModel(pX, pZ, modelIndex) {
     gltf.scene.userData.file = model.file;
     carousel.add(gltf.scene);
 
-    loadModels();
+    renderTxt();
   }
 
   function error(err) {
@@ -280,13 +280,9 @@ function rotateRight() {
   const toBeRemoved = carousel.children[nxtA];
 
   carousel.remove(toBeRemoved);
-  if (store.orientation === "vertical") {
-    slowRot("x", "-");
-    // carousel.rotation.x -= Math.PI / 2;
-  } else {
-    slowRot("y", "+");
-    // carousel.rotation.y += Math.PI / 2;
-  }
+  if (store.orientation === "vertical") slowRot("x", "-");
+  else slowRot("y", "+");
+
   const { x, z } = toBeRemoved.position;
   nxtModel(x, z, store.nxtA);
 
