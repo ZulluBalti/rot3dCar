@@ -37,7 +37,9 @@ function init() {
   renderer = new THREE.WebGLRenderer({
     antialis: AA,
     powerPreference: "high-performance",
+    alpha: true,
   });
+  renderer.setClearColor(0x000000, 0);
 
   document.querySelector(".scene").appendChild(renderer.domElement);
   renderer.setSize(ww, wh);
