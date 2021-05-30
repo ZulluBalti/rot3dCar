@@ -42,6 +42,7 @@ a img {
   -o-transition: opacity 400ms ease-in-out 500ms;
   -webkit-transition: opacity 400ms ease-in-out;
   -webkit-transition-delay: 500ms;
+  transition-delay: 500ms;
   transition: opacity 400ms ease-in-out 500ms;
   position: absolute;
 
@@ -66,6 +67,7 @@ a img {
   -o-transition: all 0ms ease-in-out 0ms;
   -webkit-transition: all 0ms ease-in-out;
   -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
   transition: all 0ms ease-in-out 0ms;
   position: absolute;
   bottom: 0%;
@@ -91,6 +93,7 @@ a img {
   -webkit-transition: top 200ms ease-in-out, -webkit-transform 200ms ease-in-out,
     width 200ms ease-in-out, height 200ms ease-in-out;
   -webkit-transition-delay: 0ms, 400ms, 200ms, 200ms;
+  transition-delay: 0ms, 400ms, 200ms, 200ms;
   transition: top 200ms ease-in-out 0ms, transform 200ms ease-in-out 400ms,
     width 200ms ease-in-out 200ms, height 200ms ease-in-out 200ms;
 }
@@ -99,6 +102,7 @@ a img {
   -o-transition: font-size 200ms ease-in-out 200ms;
   -webkit-transition: font-size 200ms ease-in-out;
   -webkit-transition-delay: 200ms;
+  transition-delay: 200ms;
   transition: font-size 200ms ease-in-out 200ms;
   position: absolute;
   left: 50%;
@@ -162,6 +166,7 @@ a img {
   -o-transition: height 200ms ease-in-out 0ms;
   -webkit-transition: height 200ms ease-in-out;
   -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
   transition: height 200ms ease-in-out 0ms;
   width: 200%;
   height: 0px;
@@ -246,6 +251,7 @@ a img {
   -o-transition: opacity 200ms ease-in-out 0ms;
   -webkit-transition: opacity 200ms ease-in-out;
   -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
   transition: opacity 200ms ease-in-out 0ms;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
@@ -276,6 +282,7 @@ a img {
   -o-transition: opacity 100ms ease-in-out 0ms;
   -webkit-transition: opacity 100ms ease-in-out;
   -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
   transition: opacity 100ms ease-in-out 0ms;
   position: absolute;
   left: 50%;
@@ -361,6 +368,7 @@ a img {
   -o-transition: all 200ms step-start 200ms;
   -webkit-transition: all 200ms step-start;
   -webkit-transition-delay: 200ms;
+  transition-delay: 200ms;
   transition: all 200ms step-start 200ms;
   position: absolute;
 
@@ -391,6 +399,7 @@ a img {
   -o-transition: all 0ms ease-in-out 0ms;
   -webkit-transition: all 0ms ease-in-out;
   -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
   transition: all 0ms ease-in-out 0ms;
   -moz-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
@@ -415,6 +424,7 @@ a img {
   -o-transition: all 0ms ease-in-out 0ms;
   -webkit-transition: all 0ms ease-in-out;
   -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
   transition: all 0ms ease-in-out 0ms;
   position: absolute;
   bottom: 0%;
@@ -437,6 +447,7 @@ a img {
   -webkit-transition: top 200ms ease-in-out, -webkit-transform 200ms ease-in-out,
     width 200ms ease-in-out, height 200ms ease-in-out;
   -webkit-transition-delay: 400ms, 0ms, 200ms, 200ms;
+  transition-delay: 400ms, 0ms, 200ms, 200ms;
   transition: top 200ms ease-in-out 400ms, transform 200ms ease-in-out 0ms,
     width 200ms ease-in-out 200ms, height 200ms ease-in-out 200ms;
   width: 100%;
@@ -447,6 +458,7 @@ a img {
   -o-transition: font-size 50ms ease-in-out 0ms;
   -webkit-transition: font-size 50ms ease-in-out;
   -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
   transition: font-size 50ms ease-in-out 0ms;
   font-size: 0pt;
 }
@@ -490,6 +502,7 @@ a img {
   -o-transition: height 200ms ease-in-out 400ms;
   -webkit-transition: height 200ms ease-in-out;
   -webkit-transition-delay: 400ms;
+  transition-delay: 400ms;
   transition: height 200ms ease-in-out 400ms;
   height: 100%;
 }
@@ -498,6 +511,7 @@ a img {
   -o-transition: opacity 200ms ease-in-out 0ms;
   -webkit-transition: opacity 200ms ease-in-out;
   -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
   transition: opacity 200ms ease-in-out 0ms;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
@@ -507,6 +521,7 @@ a img {
   -o-transition: opacity 200ms ease-in-out 400ms;
   -webkit-transition: opacity 200ms ease-in-out;
   -webkit-transition-delay: 400ms;
+  transition-delay: 400ms;
   transition: opacity 200ms ease-in-out 400ms;
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
