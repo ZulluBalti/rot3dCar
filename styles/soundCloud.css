@@ -82,7 +82,7 @@ a img {
   top: 50%;
   width: 50px;
   height: 50px;
-  background: #e67a34;
+  background: #2a85ec;
   -moz-transition: top 200ms ease-in-out 0ms,
     -moz-transform 200ms ease-in-out 400ms, width 200ms ease-in-out 200ms,
     height 200ms ease-in-out 200ms;
@@ -111,11 +111,11 @@ a img {
   transform: translate3d(-50%, -50%, 0) rotate(-45deg);
 }
 .player > .button:hover {
-  background: #a9490b;
+  background: #196fd1;
   cursor: pointer;
 }
 .player > .button:active {
-  background: #ffac76;
+  background: #57a2f8;
 }
 .player > .button.play {
   -moz-transform: translate3d(-50%, -120%, 0) rotate(45deg);
