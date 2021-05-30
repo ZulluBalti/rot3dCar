@@ -114,8 +114,7 @@ $(document).ready(function () {
   var Player = new player(window.currentTrack);
   Player.updateList();
 
-  $(".play").addClass("active");
-  $(".list .song.current").addClass("playing");
+  // $(".list .song.current").addClass("playing");
 
   $(".play").click(function () {
     Player.togglePlay();
